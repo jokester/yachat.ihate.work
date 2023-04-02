@@ -6,7 +6,7 @@
 
 export async function startRecording(
   stopped: PromiseLike<unknown>
-): Promise<Blob> {
+): Promise<File> {
   const stream = await navigator.mediaDevices
     ?.getUserMedia({ audio: true })
     .catch(() => null);
@@ -21,13 +21,15 @@ export async function startRecording(
   });
   const chunks: Blob[] = [];
 
-  const recorded = await new Promise<Blob>(async (fulfill, reject) => {
+  const recorded = await new Promise<File>(async (fulfill, reject) => {
     recorder.ondataavailable = (chunk) => {
       chunks.push(chunk.data);
     };
 
     recorder.onstop = () => {
-      const blob = new Blob(chunks, { type: "audio/webm;codecs=opus" });
+      const blob = new File(chunks, `recorded-${Date.now()}.webm`, {
+        type: "audio/webm;codecs=opus",
+      });
       fulfill(blob);
     };
 
