@@ -1,0 +1,9 @@
+node_modules
+/.idea
+/public/bundle.js*
+/.venv
+.next
+.DS_Store
+/logs
+!.gitkeep
+/.env

@@ -1,0 +1,43 @@
+/**
+ * taken from MDN:
+ * https://github.com/mdn/dom-examples/blob/main/media/web-dictaphone/scripts/app.js
+ * https://developer.mozilla.org/en-US/docs/Web/API/MediaStream_Recording_API/Using_the_MediaStream_Recording_API
+ */
+
+export async function startRecording(
+  stopped: PromiseLike<unknown>
+): Promise<Blob> {
+  const stream = await navigator.mediaDevices
+    ?.getUserMedia({ audio: true })
+    .catch(() => null);
+  if (!stream) {
+    throw new Error("音声入力をできませんでした | Could not record audio");
+  }
+  const recorder = new MediaRecorder(stream, {
+    audioBitsPerSecond: 128000,
+    mimeType: "audio/webm",
+    // mimeType: 'audio/mpeg-3',
+    // mimeType: 'audio/mp4',
+  });
+  const chunks: Blob[] = [];
+
+  const recorded = await new Promise<Blob>(async (fulfill, reject) => {
+    recorder.ondataavailable = (chunk) => {
+      chunks.push(chunk.data);
+    };
+
+    recorder.onstop = () => {
+      const blob = new Blob(chunks, { type: "audio/webm;codecs=opus" });
+      fulfill(blob);
+    };
+
+    recorder.onerror = reject;
+    recorder.start();
+
+    await Promise.race([stopped, new Promise((f) => setTimeout(f, 5 * 60e3))]);
+    recorder.stop();
+  });
+  stream.getTracks().forEach((t) => t.stop());
+
+  return recorded;
+}
