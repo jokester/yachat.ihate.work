@@ -26,6 +26,6 @@ const f = new OpenAIApi(
   new Configuration({ basePath: location.origin + OPENAI_PROXY_PREFIX + '/v1', apiKey: 'SECRET' }),
 );
 export async function chatGpt(messages: ChatCompletionRequestMessage[]) {
-  const res = await f.createChatCompletion({ messages, model: 'gpt-3.5-turbo', max_tokens: 1024 });
+  const res = await f.createChatCompletion({ messages, model: 'gpt-4', max_tokens: 1024 });
   return res.data;
 }
