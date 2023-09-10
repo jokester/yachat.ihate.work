@@ -13,20 +13,20 @@
   "author": "Wang Guan <momocraft@gmail.com>",
   "license": "WTFPL",
   "dependencies": {
-    "@fastify/compress": "^6.2.1",
-    "@fastify/http-proxy": "^8.4.0",
-    "@fastify/static": "^6.9.0",
-    "@jokester/ts-commonutil": "^0.4.0",
-    "fastify": "^4.14.1",
-    "openai": "^3.2.1",
+    "@fastify/compress": "^6.4.0",
+    "@fastify/http-proxy": "^9.2.1",
+    "@fastify/static": "^6.11.0",
+    "@jokester/ts-commonutil": "^0.4.2",
+    "fastify": "^4.22.2",
+    "openai": "<4",
     "tslib": "^2"
   },
   "devDependencies": {
-    "@types/debug": "^4.1.7",
-    "@types/node": "^18.15.3",
-    "esbuild": "^0.17.11",
-    "gts": "^3.1.1",
+    "@types/debug": "^4.1.8",
+    "@types/node": "^20.6.0",
+    "esbuild": "^0.19.2",
+    "gts": "^5.0.1",
     "ts-node": "^10.9.1",
-    "typescript": "^5.0.3"
+    "typescript": "^5.2.2"
   }
 }
