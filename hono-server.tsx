@@ -7,8 +7,8 @@ import { IndexPage } from "./pages";
 const app = new Hono<{ Bindings: Bindings }>({});
 app.use("*", logger());
 
-app.use(
-  "/static/*",
+app.get(
+  "/*",
   serveStatic({ root: /* relative to bucket in wrangler.toml */ "." })
 );
 
