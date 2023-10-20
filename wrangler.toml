@@ -13,4 +13,4 @@ bucket = "./public"
 mode = "smart"
 
 [env.prod]
-route = { pattern = "yachat2.ihate.work", custom_domain = true }
+route = { pattern = "yachat.ihate.work", custom_domain = true }
