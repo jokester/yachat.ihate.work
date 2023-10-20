@@ -21,7 +21,7 @@ export async function startRecording(
   });
   const chunks: Blob[] = [];
 
-  const recorded = await new Promise<File>(async (fulfill, reject) => {
+  const recorded = await new Promise<File>((fulfill, reject) => {
     recorder.ondataavailable = (chunk) => {
       chunks.push(chunk.data);
     };
@@ -35,11 +35,14 @@ export async function startRecording(
 
     recorder.onerror = reject;
     recorder.start();
-
-    await Promise.race([stopped, new Promise((f) => setTimeout(f, 5 * 60e3))]);
-    recorder.stop();
+    Promise.race([
+      stopped,
+      new Promise((f) => setTimeout(f, 5 * 60e3)),
+    ]).finally(() => {
+      recorder.stop();
+      stream.getTracks().forEach((t) => t.stop());
+    });
   });
-  stream.getTracks().forEach((t) => t.stop());
 
   return recorded;
 }
