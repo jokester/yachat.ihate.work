@@ -7,8 +7,6 @@ import { IndexPage } from "./pages";
 const app = new Hono<{ Bindings: Bindings }>({});
 app.use("*", logger());
 
-console.info("server initialized");
-
 app.use(
   "/static/*",
   serveStatic({ root: /* relative to bucket in wrangler.toml */ "." })
@@ -16,10 +14,6 @@ app.use(
 
 app.use("/openai/*", async (c) => {
   const incomingHeaders = new Headers(c.req.raw.headers);
-
-  incomingHeaders.forEach((v, k) => {
-    console.debug(`incoming header`, k, v);
-  });
 
   const forwardUrl = new URL(c.req.raw.url);
   forwardUrl.host = "api.openai.com";
@@ -42,7 +36,7 @@ app.use("/openai/*", async (c) => {
     }
   });
 
-  console.debug("req body", forwardHeaders);
+  //   console.debug("req body", forwardHeaders);
 
   return await fetch(forwardUrl.toString(), {
     method: c.req.raw.method,
