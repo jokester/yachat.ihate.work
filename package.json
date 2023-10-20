@@ -1,32 +1,51 @@
 {
   "name": "yachat",
-  "version": "1.0.0",
+  "version": "1.1.0",
+  "index": "hono-app.ts",
   "scripts": {
-    "build": "esbuild --bundle src/index.ts --outfile=public/bundle.js --sourcemap --minify",
-    "dev": "esbuild --bundle src/index.ts --outfile=public/bundle.js --sourcemap --watch",
-    "start": "exec node app.cjs",
+    "dev": "run-p dev:*",
+    "dev:server": "wrangler dev --live-reload --port 11080 hono-server.tsx",
+    "dev:frontend": "rollup -c --watch",
+    "build": "NODE_ENV=production rollup -c",
     "typecheck": "tsc --noEmit",
-    "typecheck:watch": "tsc --watch --noEmit"
+    "typecheck:watch": "tsc --watch --noEmit",
+    "lint": "gts lint",
+    "lint:fix": "gts fix"
   },
   "description": "yet another OpenAI-powered chat bot",
   "main": "index.js",
   "author": "Wang Guan <momocraft@gmail.com>",
   "license": "WTFPL",
   "dependencies": {
-    "@fastify/compress": "^6.4.0",
-    "@fastify/http-proxy": "^9.2.1",
-    "@fastify/static": "^6.11.0",
     "@jokester/ts-commonutil": "^0.4.2",
-    "fastify": "^4.22.2",
-    "openai": "<4",
+    "hono": "^3.8.1",
+    "openai": "^4",
     "tslib": "^2"
   },
+  "engines": {
+    "node": "^18"
+  },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.5",
     "@types/debug": "^4.1.8",
-    "@types/node": "^20.6.0",
-    "esbuild": "^0.19.2",
+    "@types/node": "^18",
+    "@typescript-eslint/eslint-plugin": "^5.60.0",
+    "@typescript-eslint/parser": "^5.60.0",
+    "concurrently": "^8.2.1",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "gts": "^5.0.1",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.8.8",
+    "rollup": "^4.1.4",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
     "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "wrangler": "^3.14.0"
   }
 }

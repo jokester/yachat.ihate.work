@@ -2,12 +2,12 @@ import { Deferred } from "@jokester/ts-commonutil/lib/concurrency/deferred";
 
 import { startRecording } from "./recorder";
 import { chatGpt, whisper } from "./openai";
-import { ChatCompletionRequestMessage } from "openai";
+import type { OpenAI } from "openai";
 
 namespace ChatHistory {
   const root = document.querySelector("#chat-history") as HTMLDivElement;
 
-  export function append(text: string, className: string = "") {
+  export function append(text: string, className = "") {
     const p = document.createElement("p");
     p.textContent = text;
     p.className = className;
@@ -16,7 +16,7 @@ namespace ChatHistory {
   }
 }
 
-namespace Recorder {
+function initRecorder() {
   const startBtn = document.querySelector(
     "#toggle-recording"
   ) as HTMLButtonElement;
@@ -30,7 +30,7 @@ Start Talking
 
   let loading: null | Deferred<void> = null;
 
-  let next: ChatCompletionRequestMessage[] = [];
+  let next: OpenAI.Chat.ChatCompletionMessageParam[] = [];
 
   startBtn.onclick = async () => {
     if (loading) {
@@ -103,3 +103,5 @@ Waiting for response...
     }
   };
 }
+
+setTimeout(initRecorder);
